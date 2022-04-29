@@ -36,7 +36,8 @@ public class DbListenerFactory
     public EventListener create(Map<String, String> config)
     {
         config = replaceEnvironmentVariables(config);
-        FlywayMigration.migrate(new ConfigurationFactory(config).build(DblistenerConfig.class));
+        DblistenerConfig dblistenerConfig = new ConfigurationFactory(config).build(DblistenerConfig.class);
+        FlywayMigration.migrate(dblistenerConfig);
         Bootstrap app = new Bootstrap(
                 new DbModule());
         Injector injector = app

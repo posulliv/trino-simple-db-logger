@@ -2,7 +2,7 @@ CREATE TABLE queries (
   id INT NOT NULL AUTO_INCREMENT,
   query_id VARCHAR(50),
   catalog VARCHAR(256),
-  "schema" VARCHAR(256),
+  `schema` VARCHAR(256),
   environment VARCHAR(256),
   query_text LONGTEXT NOT NULL,
   query_plan LONGTEXT,
