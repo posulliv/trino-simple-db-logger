@@ -15,7 +15,10 @@ package io.trino.dblistener;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
+import com.google.inject.Provides;
 import com.google.inject.Scopes;
+import com.google.inject.Singleton;
+import org.jdbi.v3.core.Jdbi;
 
 import static io.airlift.configuration.ConfigBinder.configBinder;
 
@@ -27,5 +30,12 @@ public class DbModule
     {
         configBinder(binder).bindConfig(DblistenerConfig.class);
         binder.bind(DbListener.class).in(Scopes.SINGLETON);
+    }
+
+    @Provides
+    @Singleton
+    public static Jdbi create(DblistenerConfig config)
+    {
+        return Jdbi.create(config.getUrl(), config.getUser(), config.getPassword());
     }
 }

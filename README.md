@@ -9,7 +9,7 @@ mvn clean install -DskipTests
 unzip folder and copy to trino plugin folder
 
 ```
-cp -R trino-simple-db-logger-370 /path/to/trino/folder/plugin
+cp -R trino-simple-db-logger-376 /path/to/trino/folder/plugin
 ```
 
 create schema
