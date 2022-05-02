@@ -1,23 +1,51 @@
-# install
+This repository contains a simple [Trino](https://trino.io) event listener
+plugin for persisting information on completed queries to a database table.
 
-build plugin:
+Currently, only MySQL is supported but support for other database systems
+could be easily added if anyone is interested since [Flyway](https://flywaydb.org)
+is used for database migrations.
+
+# Installation
+
+## From release
+
+1. Download the release ZIP from the releases page
+2. unzip file and copy folder to Trino plugin directory
+3. Create a database/schema in MySQL:
+```
+create database trino_db_event_listener;
+```
+4. create an `event-listener.properties` file with contents like:
+```
+event-listener.name=db-event-listener
+db-listener.url=jdbc:mysql://localhost:3306/trino_db_event_listener
+db-listener.user=trino
+db-listener.password=trino
+```
+5. restart Trino
+
+## From Source
+
+Checkout and build the plugin:
 
 ```
 mvn clean install -DskipTests
 ```
 
-unzip folder and copy to trino plugin folder
+This will create a folder in the `target` directory. Copy this folder to
+the Trino plugin folder:
 
 ```
-cp -R trino-simple-db-logger-376 /path/to/trino/folder/plugin
+cp -R target/trino-simple-db-logger-376 /path/to/trino/folder/plugin
 ```
 
-create schema
+Create a database/schema in MySQL:
 
 ```
 create database trino_db_event_listener;
+```
 
-create `event-listener.properties` file:
+Create an `event-listener.properties` file with contents like:
 
 ```
 event-listener.name=db-event-listener
@@ -26,11 +54,11 @@ db-listener.user=trino
 db-listener.password=trino
 ```
 
-restart trino
+Finally, restart trino. Once Trino is up and running, verify the plugin is
+loaded and the `queries` table was created in MySQL.
 
-verify plugin is loaded and table got created in mysql
-
-if working correctly, will see the following in the Trino `server.log` file:
+If the plugin is working correctly, you will see the following in the Trino
+`server.log` file:
 
 ```
 2022-04-29T16:03:11.763-0400	INFO	main	io.trino.eventlistener.EventListenerManager	-- Loading event listener etc/event-listener.properties --
